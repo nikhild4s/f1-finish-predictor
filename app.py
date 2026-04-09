@@ -245,19 +245,18 @@ def train_models():
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-# 1. Map Drivers (Force integer types just to be safe)
-driver_names = dict(zip(drivers_df['driverId'].astype(int), drivers_df['forename'] + ' ' + drivers_df['surname']))
+safe_driver_ids = pd.to_numeric(drivers_df['driverId'], errors='coerce').fillna(-1).astype(int)
+driver_names = dict(zip(safe_driver_ids, drivers_df['forename'] + ' ' + drivers_df['surname']))
 
-# 2. Map Constructors (Using exact Kaggle column names)
 try:
-    constructor_names = dict(zip(constructors_df['constructorId'].astype(int), constructors_df['name']))
+    safe_cons_ids = pd.to_numeric(constructors_df['constructorId'], errors='coerce').fillna(-1).astype(int)
+    constructor_names = dict(zip(safe_cons_ids, constructors_df['name']))
 except KeyError:
-    # Fallback just in case your CSV columns got renamed somehow (Column 0 = ID, Column 2 = Name)
-    constructor_names = dict(zip(constructors_df.iloc[:, 0].astype(int), constructors_df.iloc[:, 2]))
+    safe_cons_ids = pd.to_numeric(constructors_df.iloc[:, 0], errors='coerce').fillna(-1).astype(int)
+    constructor_names = dict(zip(safe_cons_ids, constructors_df.iloc[:, 2]))
 
-# 3. Build Selectbox Options
 driver_options = {driver_names.get(int(d), f'Driver {int(d)}'): d for d in sorted(data['driverId'].dropna().unique())}
-cons_options   = {constructor_names.get(int(c), f'Cons {int(c)}'): c for c in sorted(data['constructorId'].dropna().unique())}
+cons_options = {constructor_names.get(int(c), f'Cons {int(c)}'): c for c in sorted(data['constructorId'].dropna().unique())}
 
 OMAP  = {0:'PODIUM 🏆',     1:'POINTS ✅',    2:'NO POINTS / DNF ❌'}
 OCLS  = {0:'podium',         1:'points',       2:'nopoints'}
