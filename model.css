@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Barlow', sans-serif;
+    background-color: #0a0a0f;
+    color: #e8e8e8;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* ── Hero Banner ── */
+.hero {
+    background: linear-gradient(135deg, #1a0000 0%, #0a0a0f 60%);
+    border-left: 5px solid #e10600;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    margin: 0;
+}
+
+.hero span { color: #e10600; }
+
+.hero p {
+    color: #aaa;
+    margin: 0.3rem 0 0 0;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+/* ── Section Labels ── */
+.section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: #e10600;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+/* ── Outcome Cards ── */
+.outcome-card {
+    background: #111117;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.3rem 1rem;
+    text-align: center;
+    transition: border 0.2s;
+}
+
+.outcome-card.podium {
+    border: 2px solid #ffd700;
+}
+
+.outcome-card.points {
+    border: 2px solid #00c48c;
+}
+
+.outcome-card.no-points {
+    border: 2px solid #e10600;
+}
+
+.outcome-card.confident {
+    box-shadow: 0 0 16px rgba(225,6,0,0.25);
+}
+
+.model-tag {
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.outcome-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    margin: 0.3rem 0;
+}
+
+.outcome-label.podium  { color: #ffd700; }
+.outcome-label.points  { color: #00c48c; }
+.outcome-label.no-points { color: #e10600; }
+
+.conf-bar-wrap {
+    background: #1e1e28;
+    border-radius: 20px;
+    height: 6px;
+    margin: 0.5rem auto;
+    width: 80%;
+    overflow: hidden;
+}
+
+.conf-bar {
+    height: 100%;
+    border-radius: 20px;
+    background: #e10600;
+}
+
+.conf-text {
+    font-size: 0.82rem;
+    color: #aaa;
+    margin-top: 0.3rem;
+}
+
+/* ── Verdict Banner ── */
+.verdict-banner {
+    background: linear-gradient(135deg, #1a0000, #0a0a0f);
+    border: 2px solid #e10600;
+    border-radius: 10px;
+    padding: 1.4rem 2rem;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.verdict-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    color: #888;
+}
+
+.verdict-result {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #e10600;
+}
+
+.verdict-sub {
+    font-size: 0.85rem;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+/* ── Metric Cards ── */
+.metric-card {
+    background: #111117;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.metric-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #e10600;
+}
+
+.metric-sub {
+    font-size: 0.75rem;
+    color: #555;
+}
+
+/* ── Input Panel ── */
+.input-panel {
+    background: #111117;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Divider ── */
+.red-divider {
+    border: none;
+    border-top: 1px solid #e10600;
+    opacity: 0.3;
+    margin: 1.5rem 0;
+}
+
+/* ── Accuracy Table ── */
+.acc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid #1e1e28;
+    font-size: 0.9rem;
+}
+
+.acc-row:last-child { border-bottom: none; }
+.acc-model { color: #ccc; }
+.acc-val   { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #e10600; }
+.acc-val.best { color: #ffd700; }
+
+/* ── Streamlit overrides ── */
+.stButton > button {
+    background: #e10600 !important;
+    color: white !important;
+    font-family: 'Bebas Neue', sans-serif !important;
+    letter-spacing: 2px !important;
+    font-size: 1.1rem !important;
+    border: none !important;
+    width: 100%;
+    padding: 0.6rem 1rem !important;
+}
+
+.stButton > button:hover {
+    background: #b30500 !important;
+}
+
+div[data-testid="stSelectbox"] label,
+div[data-testid="stSlider"] label {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #aaa !important;
+    text-transform: uppercase;
+}
+
+div[data-testid="stSelectbox"] > div > div {
+    background-color: #1a1a22 !important;
+    border: 1px solid #333 !important;
+    color: #e8e8e8 !important;
+}
