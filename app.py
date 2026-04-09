@@ -167,6 +167,9 @@ def load_data():
 @st.cache_resource
 def train_models():
     results, races, drivers, constructors, qualifying, standings = load_data()
+    # FIX: normalize column names
+    constructors.columns = constructors.columns.str.strip().str.lower()
+    drivers.columns = drivers.columns.str.strip().str.lower()
 
     races_f = races[(races['year'] >= 2019) & (races['year'] <= 2024)][['raceId','year','round']]
     res_f   = results.merge(races_f, on='raceId', how='inner')
@@ -245,8 +248,8 @@ def train_models():
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-driver_names      = dict(zip(drivers_df['driverId'], drivers_df['forename']+' '+drivers_df['surname']))
-constructor_names = dict(zip(constructors_df['constructorId'], constructors_df['name']))
+driver_names = dict(zip(drivers_df['driverid'], drivers_df['forename'] + ' ' + drivers_df['surname']))
+constructor_names = dict(zip(constructors_df['constructorid'], constructors_df['name']))
 
 driver_options = {driver_names.get(d, f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
 cons_options   = {constructor_names.get(c, f'Cons {c}'): c for c in sorted(data['constructorId'].unique())}
