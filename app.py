@@ -245,18 +245,18 @@ def train_models():
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-driver_names      = dict(zip(drivers_df['driverId'], drivers_df['forename']+' '+drivers_df['surname']))
-# DEBUG + FIX
+driver_names = dict(zip(drivers_df['driverId'], drivers_df['forename'] + ' ' + drivers_df['surname']))
+
 constructors_df.columns = constructors_df.columns.str.strip()
 
-# auto-detect correct column names
 col_id = [col for col in constructors_df.columns if 'constructor' in col.lower() and 'id' in col.lower()][0]
 col_name = [col for col in constructors_df.columns if 'name' in col.lower()][0]
 
-constructor_names = dict(zip(constructors_df[col_id], constructors_df[col_name]))
+safe_cons_ids = pd.to_numeric(constructors_df[col_id], errors='coerce').fillna(-1).astype(int)
+constructor_names = dict(zip(safe_cons_ids, constructors_df[col_name].astype(str)))
 
-driver_options = {driver_names.get(d, f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
-cons_options   = {constructor_names.get(c, f'Cons {c}'): c for c in sorted(data['constructorId'].unique())}
+driver_options = {driver_names.get(int(d), f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
+cons_options = {constructor_names.get(int(c), f'Cons {c}'): c for c in sorted(data['constructorId'].unique())}
 
 OMAP  = {0:'PODIUM 🏆',     1:'POINTS ✅',    2:'NO POINTS / DNF ❌'}
 OCLS  = {0:'podium',         1:'points',       2:'nopoints'}
