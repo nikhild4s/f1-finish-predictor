@@ -10,7 +10,7 @@
 ---
 
 ## 🔗 Live App
-**[f1-finishposition-predictor.streamlit.app](https://f1-predictor-pro.streamlit.app/)**
+**[f1-predictor-pro.streamlit.app](https://f1-predictor-pro.streamlit.app/)**
 
 ---
 
