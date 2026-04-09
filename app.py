@@ -58,7 +58,7 @@ body{background:transparent;font-family:'Barlow',sans-serif;color:#e8e8e8;}
     background:#1e1e28;
     border-radius:20px;
     height:0;
-    padding-bottom:3%;   /* percentage height = zoom-proof */
+    padding-bottom:3%;
     margin:0.45rem auto;
     width:80%;
     overflow:hidden;
@@ -69,21 +69,19 @@ body{background:transparent;font-family:'Barlow',sans-serif;color:#e8e8e8;}
     top:0;left:0;bottom:0;
     border-radius:20px;
     background:#e10600;
-    min-height:4px;      /* absolute floor so it never vanishes */
+    min-height:4px;
 }
 .conf-txt{font-size:0.78rem;color:#aaa;margin-top:0.35rem;}
 .badge{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:1px;color:#e10600;margin-top:0.35rem;min-height:1em;}
 
-/* verdict — base */
 .verdict{
     border-radius:10px;
     padding:1.15rem 2rem 1.8rem;
     text-align:center;
     border-width:2px;
     border-style:solid;
-    margin:2px 2px 6px 2px;  /* give all edges room so border never clips */
+    margin:2px 2px 6px 2px;
 }
-/* color variants */
 .verdict.podium  { background:linear-gradient(135deg,#1a1400,#0a0a0f); border-color:#ffd700; }
 .verdict.points  { background:linear-gradient(135deg,#001a10,#0a0a0f); border-color:#00c48c; }
 .verdict.nopoints{ background:linear-gradient(135deg,#1a0000,#0a0a0f); border-color:#e10600; }
@@ -167,9 +165,10 @@ def load_data():
 @st.cache_resource
 def train_models():
     results, races, drivers, constructors, qualifying, standings = load_data()
-    # FIX: normalize column names
+
+    # ── FIX: normalize column names (cache-safe — done inside the function) ──
     constructors.columns = constructors.columns.str.strip().str.lower()
-    drivers.columns = drivers.columns.str.strip().str.lower()
+    drivers.columns      = drivers.columns.str.strip().str.lower()
 
     races_f = races[(races['year'] >= 2019) & (races['year'] <= 2024)][['raceId','year','round']]
     res_f   = results.merge(races_f, on='raceId', how='inner')
@@ -242,13 +241,15 @@ def train_models():
         'F1 Score': round(f1_score(yte, m.predict(Xte), average='weighted'), 3),
     } for n,m in mdls])
 
+    # ── FIX: return already-lowercased dataframes (cache-safe) ───────────────
     return mdls, pre, data, hga, evl, drivers, constructors
 
 # ── Train ─────────────────────────────────────────────────────────────────────
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-driver_names = dict(zip(drivers_df['driverid'], drivers_df['forename'] + ' ' + drivers_df['surname']))
+# No need to re-lowercase here — already handled inside train_models()
+driver_names      = dict(zip(drivers_df['driverid'], drivers_df['forename'] + ' ' + drivers_df['surname']))
 constructor_names = dict(zip(constructors_df['constructorid'], constructors_df['name']))
 
 driver_options = {driver_names.get(d, f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
@@ -349,7 +350,7 @@ with right_col:
 
         st.markdown("<div style='margin-top:0.8rem'></div>", unsafe_allow_html=True)
 
-        # Verdict — color-coded by outcome
+        # Verdict
         if tied:
             vcls   = "tied"
             vlabel = "TIED — SEE MOST CONFIDENT"
@@ -367,7 +368,7 @@ with right_col:
             </div>
         </div>""", 145)
 
-        # Spacer + Model cards
+        # Model cards
         st.markdown("<div style='margin-top:1.6rem'></div>", unsafe_allow_html=True)
         st.markdown('<p class="section-label">MODEL PREDICTIONS</p>', unsafe_allow_html=True)
         cards = ""
@@ -436,9 +437,8 @@ with right_col:
                 <div class="ov-pct">{pct}% of entries</div>
             </div>"""
         iframe(f'<div class="ov-wrap">{ov}</div>', 155)
-# 
-# ───────────────────────────────────────────────────────────────────────────────
-# sidebar disclaimer
+
+# ── Sidebar disclaimer ────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown('---')
     st.caption('🚀 **Disclaimer**')
