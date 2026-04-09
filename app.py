@@ -246,14 +246,7 @@ with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
 driver_names      = dict(zip(drivers_df['driverId'], drivers_df['forename']+' '+drivers_df['surname']))
-# DEBUG + FIX
-constructors_df.columns = constructors_df.columns.str.strip()
-
-# auto-detect correct column names
-col_id = [col for col in constructors_df.columns if 'constructor' in col.lower() and 'id' in col.lower()][0]
-col_name = [col for col in constructors_df.columns if 'name' in col.lower()][0]
-
-constructor_names = dict(zip(constructors_df[col_id], constructors_df[col_name]))
+constructor_names = dict(zip(constructors_df['constructorId'], constructors_df['name']))
 
 driver_options = {driver_names.get(d, f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
 cons_options   = {constructor_names.get(c, f'Cons {c}'): c for c in sorted(data['constructorId'].unique())}
