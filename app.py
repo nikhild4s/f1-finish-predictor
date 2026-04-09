@@ -159,7 +159,7 @@ def load_data():
         pd.read_csv("data/results.csv"),
         pd.read_csv("data/races.csv"),
         pd.read_csv("data/drivers.csv"),
-        pd.read_csv("data/constructors.csv"),
+        pd.read_csv("data/constructors.csv", sep=None, engine='python'),
         pd.read_csv("data/qualifying.csv"),
         pd.read_csv("data/driver_standings.csv"),
     )
