@@ -61,3 +61,31 @@ git clone https://github.com/nikhild4s/f1-finish-predictor.git
 cd f1-finish-predictor
 pip install -r requirements.txt
 streamlit run app.py
+```
+## 📁 Project Structure
+
+f1-finish-predictor/
+├── app.py
+├── f1_position_predictor_.py
+├── model.css
+├── requirements.txt
+└── data/
+    ├── constructors.csv
+    ├── driver_standings.csv
+    ├── drivers.csv
+    ├── qualifying.csv
+    ├── races.csv
+    └── results.csv
+
+---
+
+## 🙌 Notes
+
+- This project is built for learning and experimentation in ML + web deployment  
+- Focus is on simplicity, usability, and understanding patterns in racing data  
+
+---
+
+## ⚠️ Disclaimer
+
+This project is unofficial and not affiliated with Formula 1, FIA, or any official organization.
