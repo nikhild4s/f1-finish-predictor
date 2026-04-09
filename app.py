@@ -245,24 +245,28 @@ def train_models():
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-constructors_df.columns = constructors_df.columns.str.strip().str.lower()
-drivers_df.columns = drivers_df.columns.str.strip().str.lower()
-
-safe_driver_ids = pd.to_numeric(drivers_df['driverid'], errors='coerce').fillna(-1).astype(int)
+safe_driver_ids = pd.to_numeric(drivers_df['driverId'], errors='coerce').fillna(-1).astype(int)
 driver_names = dict(zip(safe_driver_ids, drivers_df['forename'] + ' ' + drivers_df['surname']))
 
-id_cols = [c for c in constructors_df.columns if 'id' in c]
-cons_id_col = id_cols[0] if id_cols else constructors_df.columns[0]
+fallback_teams = {
+    1: "McLaren", 2: "BMW Sauber", 3: "Williams", 4: "Renault", 5: "Toro Rosso",
+    6: "Ferrari", 7: "Toyota", 8: "Super Aguri", 9: "Red Bull", 10: "Force India",
+    15: "Sauber", 51: "Alfa Romeo", 117: "Aston Martin", 131: "Mercedes",
+    210: "Haas F1 Team", 211: "Racing Point", 213: "AlphaTauri", 214: "Alpine", 215: "RB"
+}
 
-name_cols = [c for c in constructors_df.columns if 'name' in c]
-cons_name_col = name_cols[0] if name_cols else [c for c in constructors_df.columns if c != cons_id_col][0]
+try:
+    safe_cons_ids = pd.to_numeric(constructors_df['constructorId'], errors='coerce').fillna(-1).astype(int)
+    constructor_names = dict(zip(safe_cons_ids, constructors_df['name']))
+except KeyError:
+    constructor_names = fallback_teams
 
-safe_cons_ids = pd.to_numeric(constructors_df[cons_id_col], errors='coerce').fillna(-1).astype(int)
-constructor_names = dict(zip(safe_cons_ids, constructors_df[cons_name_col].astype(str)))
+for k, v in fallback_teams.items():
+    if k not in constructor_names or pd.isna(constructor_names[k]):
+        constructor_names[k] = v
 
 driver_options = {driver_names.get(int(d), f'Driver {int(d)}'): d for d in sorted(data['driverId'].dropna().unique())}
 cons_options = {constructor_names.get(int(c), f'Cons {int(c)}'): c for c in sorted(data['constructorId'].dropna().unique())}
-
 OMAP  = {0:'PODIUM 🏆',     1:'POINTS ✅',    2:'NO POINTS / DNF ❌'}
 OCLS  = {0:'podium',         1:'points',       2:'nopoints'}
 RMAP  = {0:'P1 – P3',        1:'P4 – P10',     2:'P11+ / DNF'}
