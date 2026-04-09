@@ -1,67 +1,73 @@
-# 🏁 F1 Race Finish Predictor
+# 🏎️ F1 Race Finish Predictor
 
-> A machine learning tool that predicts a driver's final race position based on their team and starting grid position.
+> A data-driven web application that predicts a driver's finishing position in a Formula 1 race based on team performance and starting grid position.
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
-![Models](https://img.shields.io/badge/Models-LogisticRegression%20%7C%20DecisionTree%20%7C%20RandomForest%20%7C%20XGBoost-orange)
+![Models](https://img.shields.io/badge/Models-ML%20Classification-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+---
 
 ## 🔗 Live App
 **[f1-finishposition-predictor.streamlit.app](https://f1-finishposition-predictor.streamlit.app/)**
 
 ---
 
-## 🕹️ How it Works
+## 🚀 Overview
 
-* **Driver & Team Selection:** Choose any driver and constructor from the current grid.
-* **Grid Position:** Use the interactive slider to set the starting position.
-* **Instant Results:** Generate a predicted finish position based on 2019–2024 race data patterns.
+This project explores how machine learning can be applied to motorsport analytics.  
+Using historical race data, the app estimates a driver's final race position based on simple but impactful inputs like team and starting grid.
+
+The focus is on building an interactive and lightweight prediction tool rather than a highly complex racing simulator.
 
 ---
 
-## 📊 Data & Logic
+## 🕹️ How it Works
 
-- **Dataset:** [Formula 1 World Championship (1950–2020)](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020) by Rohan Rao on Kaggle — filtered to 2019–2024 race results
-- **Models tested:** Logistic Regression, Decision Tree, Random Forest, and XGBoost — best performing model used for predictions
-- **Evaluation:** Accuracy score, F1 score, confusion matrix, and classification report
-- **Key insight:** Constructor performance plays a significant role alongside grid position in determining final race results
+- **Driver & Constructor Selection:** Choose a driver and their team  
+- **Grid Position Input:** Set the starting position using a slider  
+- **Prediction Output:** The model predicts the most likely finishing position  
+
+---
+
+## 📊 Data & Approach
+
+- **Dataset:** Formula 1 World Championship dataset (filtered for modern-era races)  
+- **Features used:** Constructor and grid position  
+- **Models explored:** Multiple classification models were tested to evaluate performance  
+- **Evaluation metrics:** Accuracy, classification metrics, and general prediction consistency  
+
+💡 *Insight:* Team performance (constructor) combined with starting position plays a major role in predicting race outcomes.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Tool | Purpose |
-|------|---------|
-| `Pandas` | Data loading & preprocessing |
-| `Scikit-learn` | Model pipeline, encoding & evaluation |
-| `LogisticRegression` | Baseline classification model |
-| `DecisionTreeClassifier` | Tree-based classification |
-| `RandomForestClassifier` | Ensemble classification |
-| `XGBClassifier` | Gradient boosted classification |
-| `Matplotlib / Seaborn` | Data visualisation |
-| `Streamlit` | Web app interface |
+| Tool | Usage |
+|------|------|
+| `Pandas` | Data handling and preprocessing |
+| `Scikit-learn` | Model building and evaluation |
+| `XGBoost` | Gradient boosting model |
+| `Matplotlib / Seaborn` | Visualizations |
+| `Streamlit` | Frontend interface |
 
 ---
 
 ## 🚀 Run Locally
+
 ```bash
-git clone https://github.com/subhankar-pattanaik/AI_project.git
-cd AI_project
+git clone https://github.com/nikhild4s/f1-finish-predictor.git
+cd f1-finish-predictor
 pip install -r requirements.txt
 streamlit run app.py
-```
-
----
 
 ## 📁 Project Structure
-```
-AI_project/
-├── .gitignore
-├── README.md
-├── app.py                      # Streamlit app
-├── f1_position_predictor_.py   # ML model logic
-├── model.css                   # Custom styling
+
+f1-finish-predictor/
+├── app.py
+├── f1_position_predictor_.py
+├── model.css
 ├── requirements.txt
 └── data/
     ├── constructors.csv
@@ -70,15 +76,17 @@ AI_project/
     ├── qualifying.csv
     ├── races.csv
     └── results.csv
-```
+
 
 ---
 
-## 🙏 Acknowledgements
+## 🙌 Notes
 
-- Race data from [Formula 1 World Championship (1950–2020)](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020) by Rohan Rao
-- Inspired by the Formula 1 community and open-source F1 analytics projects
+- This project is built for learning and experimentation in ML + web deployment  
+- Focus is on simplicity, usability, and understanding patterns in racing data  
 
 ---
 
-*⚠️ Disclaimer: This project is unofficial and not affiliated with Formula 1 or the FIA.*
+## ⚠️ Disclaimer
+
+This project is unofficial and not affiliated with Formula 1, FIA, or any official organization.
