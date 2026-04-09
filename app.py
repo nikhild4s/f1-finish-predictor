@@ -249,8 +249,6 @@ driver_names      = dict(zip(drivers_df['driverId'], drivers_df['forename']+' '+
 # DEBUG + FIX
 constructors_df.columns = constructors_df.columns.str.strip()
 
-st.write("Columns:", constructors_df.columns)  # remove later
-
 # auto-detect correct column names
 col_id = [col for col in constructors_df.columns if 'constructor' in col.lower() and 'id' in col.lower()][0]
 col_name = [col for col in constructors_df.columns if 'name' in col.lower()][0]
