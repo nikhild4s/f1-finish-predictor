@@ -245,11 +245,23 @@ def train_models():
 with st.spinner("🏁 Loading data & training models..."):
     models, preprocessor, data, high_grid_avg, eval_df, drivers_df, constructors_df = train_models()
 
-driver_names      = dict(zip(drivers_df['driverId'], drivers_df['forename']+' '+drivers_df['surname']))
-constructor_names = dict(zip(constructors_df['constructorId'], constructors_df['name']))
+constructors_df.columns = constructors_df.columns.str.strip().str.lower()
+drivers_df.columns = drivers_df.columns.str.strip().str.lower()
 
-driver_options = {driver_names.get(d, f'Driver {d}'): d for d in sorted(data['driverId'].unique())}
-cons_options   = {constructor_names.get(c, f'Cons {c}'): c for c in sorted(data['constructorId'].unique())}
+safe_driver_ids = pd.to_numeric(drivers_df['driverid'], errors='coerce').fillna(-1).astype(int)
+driver_names = dict(zip(safe_driver_ids, drivers_df['forename'] + ' ' + drivers_df['surname']))
+
+id_cols = [c for c in constructors_df.columns if 'id' in c]
+cons_id_col = id_cols[0] if id_cols else constructors_df.columns[0]
+
+name_cols = [c for c in constructors_df.columns if 'name' in c]
+cons_name_col = name_cols[0] if name_cols else [c for c in constructors_df.columns if c != cons_id_col][0]
+
+safe_cons_ids = pd.to_numeric(constructors_df[cons_id_col], errors='coerce').fillna(-1).astype(int)
+constructor_names = dict(zip(safe_cons_ids, constructors_df[cons_name_col].astype(str)))
+
+driver_options = {driver_names.get(int(d), f'Driver {int(d)}'): d for d in sorted(data['driverId'].dropna().unique())}
+cons_options = {constructor_names.get(int(c), f'Cons {int(c)}'): c for c in sorted(data['constructorId'].dropna().unique())}
 
 OMAP  = {0:'PODIUM 🏆',     1:'POINTS ✅',    2:'NO POINTS / DNF ❌'}
 OCLS  = {0:'podium',         1:'points',       2:'nopoints'}
