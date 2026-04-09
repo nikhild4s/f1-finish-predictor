@@ -64,6 +64,7 @@ streamlit run app.py
 ```
 ## 📁 Project Structure
 
+```
 f1-finish-predictor/
 ├── app.py
 ├── f1_position_predictor_.py
@@ -76,7 +77,7 @@ f1-finish-predictor/
     ├── qualifying.csv
     ├── races.csv
     └── results.csv
-
+```
 ---
 
 ## 🙌 Notes
